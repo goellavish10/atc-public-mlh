@@ -1,0 +1,272 @@
+<%- include('./partials/_dashboard_header', { TITLE: title }) %>
+    <nav>
+        <div class="burger" id='burger'>
+            <img class="burger__vector" src="/assets/burger.png" alt="burger Vector" />
+        </div>
+        <ul id="navLinks">
+            <div class="burger burger__close" id='burger-alt'>
+                <img class="burger__vector" src="/assets/close.svg" alt="burger Vector" />
+            </div>
+            <li><a href="/booking">Book a Job</a></li>
+            <li><a href="/booking/history">Booking History</a> </li>
+            <li id="empty"></li>
+            <li class="dropdown" id="dropdown">
+                <div class="accordian-label dropbtn nav-col"><a href="/dashboard">Dashboard</a><img
+                        src="/assets/arrow-down.svg" alt=""></div>
+                <div class="dropdown-content"><a href="/account/settings">Account Settings</a></div>
+            </li>
+            <li><a href="/logout" style="color: #E01B1B;">Logout</a></li>
+            <img src="/assets/logo.png" class="logo" alt="logo" />
+        </ul>
+        <img src="/assets/logo.png" class="logo" alt="logo" />
+        <script>
+            // Nav Opener
+            const burger = document.getElementById('burger');
+            const burgerClose = document.getElementById('burger-alt')
+            const navLinks = document.getElementById('navLinks')
+            burger.onclick = () => {
+                navLinks.style.display = 'flex';
+            }
+            burgerClose.onclick = () => {
+                navLinks.style.display = 'none';
+            }
+            const dashboard = document.getElementById('empty');
+            const accSettings = document.getElementById('dropdown');
+
+            // const navDisplay = window.matchMedia("(max-width: 768px)");
+            window.addEventListener("resize", function () {
+                const width = document.documentElement.clientWidth;
+                if (width > 768) {
+                    dashboard.innerHTML = '';
+                    accSettings.innerHTML = `<div class="accordian-label dropbtn nav-col"><a href="/dashboard">Dashboard</a><img
+                        src="/assets/arrow-down.svg" alt=""></div>
+                <div class="dropdown-content"><a href="/account/settings">Account Settings</a></div>`;
+                    dashboard.classList.add('nav-col');
+                }
+            }, { once: true })
+
+            if (window.innerWidth < 768) {
+                accSettings.innerHTML = "";
+                dashboard.innerHTML = '<a href="/dashboard">Dashboard</a>';
+                dashboard.style.display = "block";
+                accSettings.innerHTML = '<a href="/account/settings">Account Settings</a>';
+            }
+
+        </script>
+    </nav>
+    <div class="container">
+        <!-- class for no bookings = no-booking -->
+        <h1 class="delivery_priority">
+            Hello, <%=name%>
+        </h1>
+        <%if(order!=="none" ){%>
+            <aside class="bookings">
+                <header class="bookings__head">
+                    <h4>Active Bookings</h4>
+                    <a class="link link--arrow" id="filtering_btn" onclick="showModal()" style="cursor: pointer;">Filter
+                        By<img src="/assets/Arrow-right.png" alt="right-arrow"></a>
+                </header>
+                <% bookings.map((booking)=>{ %>
+                    <div class="recent" style="margin-bottom: 20px;">
+                        <ul class="recent__head list-layout new-layout">
+                            <div class="new-detail-head">
+                                <li class="head__field new__head__field">Job Id:</li>
+                                <li>
+                                    <%=booking.jobId%>
+                                </li>
+                            </div>
+                            <div class="new-detail-head">
+                                <li class="head__field new__head__field">Status:</li>
+                                <li>
+                                    <%=booking.jobStatus%>
+                                </li>
+                            </div>
+                            <div class="new-detail-head">
+                                <li class="head__field new__head__field">Date:</li>
+                                <li>
+                                    <%=booking.bookingDate%>
+                                </li>
+                            </div>
+                            <div class="new-detail-head">
+                                <li class="head__field new__head__field">Reference:</li>
+                                <%if(booking.deliveryDetails.jobReference){%>
+                                    <li>
+                                        <%=booking.deliveryDetails.jobReference%>
+                                    </li>
+                                    <%}else{%>
+                                        <li style="text-align: left;">-</li>
+                                        <%}%>
+                            </div>
+
+                        </ul>
+                        <ul class="recent__d1 list-layout">
+                            <li class="head__field">From:</li>
+                            <li>
+                                <%=booking.pickupDetails.addressDetails.suburb%>
+                            </li>
+                            <li class="head__field">Sender Name:</li>
+                            <li>
+                                <%=booking.pickupDetails.name%>
+                            </li>
+                            <li class="head__field">Booked For:</li>
+                            <li>
+                                <%=booking.deliveryPriority.pickupDateTime%>
+                            </li>
+                            <li class="head__field">Service Level:</li>
+                            <li>
+                                <%=booking.deliveryPriority.serviceType.toUpperCase()%>
+                            </li>
+                            <% if(booking.deliveryPriority.serviceType !=="paxi" ) {%>
+                                <li class="head__field">Service:</li>
+                                <li>
+                                    <%=booking[booking.deliveryPriority.serviceType]?.serviceCode%>
+                                </li>
+                                <% } %>
+                        </ul>
+                        <ul class="recent__d2 list-layout">
+                            <li class="head__field">To:</li>
+                            <li>
+                                <%=booking.deliveryDetails.addressDetails.suburb%>
+                            </li>
+                            <li class="head__field details__price">Price:</li>
+                            <li class="details__price price--green">
+                                $<%=booking.cost%>
+                            </li>
+                        </ul>
+                        <div class="btn-group recent__btn-group">
+                            <a class="btn btn-secondary btn--details" style="cursor: pointer;"
+                                href="/booking/detail/<%=booking.jobId%>?d=<%=booking.bookingDate%>">See Details</a>
+                            <a href="https://atccouriers.com.au/contact-us" class="link link--red">Request
+                                Cancellation</a>
+                        </div>
+                    </div>
+                    <% }) %>
+
+            </aside>
+            <%}else{%>
+                <div class="empty">
+                    <div class="empty-container">
+                        <h3>No Bookings to Show Here</h3>
+                        <a href="/booking" class="link link_arrow">Book a Parcel<img src="/assets/Arrow-right.png"
+                                alt=""></a>
+                    </div>
+                </div>
+                <%}%>
+                    <!-- Main Content -->
+                    <main class="cards">
+                        <div class="card">
+                            <a href="/booking">
+                                <header class="card__head">
+                                    <h4>Flat Rate</h4>
+                                </header>
+                                <div class="card__body">
+                                    <img src="/assets/dashboard/badge 1.png" alt="" class="card__ico">
+                                    <ul>
+                                        <li>Delivery Time: by 5 PM</li>
+                                        <li>Booking Cutoff: 10 AM</li>
+                                    </ul>
+                                </div>
+                            </a>
+
+                        </div>
+                        <div class="card">
+                            <a href="/booking">
+                                <header class="card__head">
+                                    <h4>Standard</h4>
+                                </header>
+                                <div class="card__body">
+                                    <img src="/assets/dashboard/crown 1.png" alt="" class="card__ico">
+                                    <ul>
+                                        <li>Delivery Time: 3-4 Hrs</li>
+                                        <li>Booking Cutoff: 2 PM</li>
+                                    </ul>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="card">
+                            <a href="/booking">
+                                <header class="card__head">
+                                    <h4>VIP</h4>
+                                </header>
+                                <div class="card__body">
+                                    <img src="/assets/dashboard/vip 2.png" alt="" class="card__ico">
+                                    <ul>
+                                        <li>Delivery Time: 2-3 Hrs</li>
+                                        <li>Booking Cutoff: 3:30 PM</li>
+                                    </ul>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="card">
+                            <a href="/booking">
+                                <header class="card__head">
+                                    <h4>Express</h4>
+                                </header>
+                                <div class="card__body">
+                                    <img src="/assets/dashboard/banner 1.png" alt="" class="card__ico">
+                                    <ul>
+                                        <li>Delivery Time: 1-2 Hrs</li>
+                                        <li>Booking Cutoff: 5 PM</li>
+                                    </ul>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="card">
+                            <a href="/booking">
+                                <header class="card__head">
+                                    <h4>PAXI</h4>
+                                </header>
+                                <div class="card__body">
+                                    <img src="/assets/dashboard/badge-(1) 1.png" alt="" class="card__ico">
+                                    <ul>
+                                        <li>Delivery Time: 1-2 Hrs</li>
+                                        <li>Booking Cutoff: 24/7</li>
+                                    </ul>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="btn-group">
+                            <a href="https://atc-couriers.webflow.io/contact-us" target="_blank"
+                                class="btn btn-secondary btn-primary--outliner" style="text-align: center;">Contact Us
+                                <img id="btn__img" src="./assets//dashboard//blue-arrow.png" alt=""></a>
+                        </div>
+                    </main>
+    </div>
+    <div class="modal" id="modalContent" style="display: none;">
+        <div class="modal-content">
+            <div class="modal_heading">
+                <h2>Filter Bookings By</h2>
+                <button class="close" onclick="closeModal()">
+                    <img src="/assets/close.svg" class="cross" alt="close" />
+                </button>
+            </div>
+            <div class="item">
+                <label for="main1" class="main__label">
+                    <input type="radio" class="main__radio" name="main__active" id="main1" />
+                    <span class="custom__radio" onclick="changeRadio('date')"></span>
+                    <h4 class="modal-add">Date Range</h4>
+                </label>
+                <div class="date">
+                    <input type="date" placeholder="Select Start Date" id="from_date"
+                        style="box-sizing: content-box;" />
+                    <input type="date" placeholder="Select End Date" id="to_date" style="box-sizing: content-box;" />
+                </div>
+            </div>
+            <div class="item">
+                <label for="main2" class="main__label">
+                    <input type="radio" class="main__radio" name="main__active" id="main2" />
+                    <span class="custom__radio" onclick="changeRadio('ref')"></span>
+                    <h4 class="modal-add">Reference</h4>
+                </label>
+                <div class="date">
+                    <input type="text" placeholder="Reference Search" class="reference" id="ref" />
+                </div>
+            </div>
+            <button class="btn-primary btn-add" onclick="fetchFilteredBookings()">
+                Filter <img src="/assets/Right Arrow.png" alt="arrow" id="filter-img" />
+            </button>
+        </div>
+    </div>
+    <div class="modal_bg" onclick="closeModal()"></div>
+
+    <%- include('./partials/_footer') %>

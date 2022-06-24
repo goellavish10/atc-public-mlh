@@ -1,0 +1,34 @@
+/* ************* */
+/* Modal CSS     */
+/* ************* */
+.item {
+	flex-direction: column;
+	width: 100%;
+	align-items: flex-start;
+}
+.modal .date {
+	width: 90%;
+	margin-left: 10%;
+}
+
+.booking-history {
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+	max-width: 1400px;
+	margin: 0 auto;
+	padding-right: 2em;
+}
+.booking-history .filter {
+	font-size: 2.125rem;
+	color: #fd7f2d;
+	width: fit-content;
+	background-color: white;
+	padding: 0;
+	margin-bottom: 1.5rem;
+	margin-top: 3rem;
+}
+.booking-history .filter:hover {
+	cursor: pointer;
+	color: #dd5d0a;
+}

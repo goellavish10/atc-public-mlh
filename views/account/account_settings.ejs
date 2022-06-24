@@ -1,0 +1,118 @@
+<%- include('./partials/_header', {TITLE: title}) %>
+    <nav>
+        <div class="burger" id='burger'>
+            <img class="burger__vector" src="/assets/burger.png" alt="burger Vector" />
+        </div>
+        <ul id="navLinks">
+            <div class="burger burger__close" id='burger-alt'>
+                <img class="burger__vector" src="/assets/close.svg" alt="burger Vector" />
+            </div>
+            <li><a href="/booking">Book a Job</a></li>
+            <li><a href="/booking/history">Booking History</a></li>
+            <li id="empty"></li>
+            <li class="dropdown" id="dropdown">
+                <div class="accordian-label dropbtn nav-col"><a href="/dashboard">Dashboard</a><img
+                        src="/assets/arrow-down.svg" alt=""></div>
+                <div class="dropdown-content"><a href="/account/settings">Account Settings</a></div>
+            </li>
+
+            <li class="link--red"><a href="/logout">Logout</a></li>
+            <img src="/assets/logo.png" class="logo" alt="logo" />
+        </ul>
+        <img src="/assets/logo.png" class="logo" alt="logo" />
+        <script>
+            // Nav Opener
+            const burger = document.getElementById('burger');
+            const burgerClose = document.getElementById('burger-alt')
+            const navLinks = document.getElementById('navLinks')
+            burger.onclick = () => {
+                navLinks.style.display = 'flex';
+            }
+            burgerClose.onclick = () => {
+                navLinks.style.display = 'none';
+            }
+            const dashboard = document.getElementById('empty');
+            const accSettings = document.getElementById('dropdown');
+
+            window.addEventListener("resize", function () {
+                const width = document.documentElement.clientWidth;
+                if (width > 768) {
+                    dashboard.innerHTML = '';
+                    accSettings.innerHTML = `<div class="accordian-label dropbtn nav-col"><a href="/dashboard">Dashboard</a><img
+                        src="/assets/arrow-down.svg" alt=""></div>
+                <div class="dropdown-content"><a href="/account/settings">Account Settings</a></div>`;
+                    dashboard.classList.add('nav-col');
+                }
+            })
+
+            if (window.innerWidth < 768) {
+                accSettings.innerHTML = "";
+                dashboard.innerHTML = '<a href="/dashboard">Dashboard</a>';
+                dashboard.style.display = "block";
+                accSettings.innerHTML = '<a href="/account/settings">Account Settings</a>';
+            }
+        </script>
+    </nav>
+    <div class="container">
+        <h1 class="delivery_priority">Account Settings</h1>
+        <div class="acc-settings__content">
+            <div class="acc-settings__container">
+                <div class="acc-settings__list">
+                    <ul>
+                        <li class="link--active active-list1">
+                            <a href="/account/settings">Account Settings</a>
+                            <img class="vector-arrow" src="/assets/VectorWhite.png" alt="" />
+                        </li>
+                        <li>
+                            <a href="/account/saved-addresses">Manage Saved Address</a>
+                            <img class="vector-arrow" src="/assets/VectorBlack.png" alt="" />
+                        </li>
+                        <li>
+                            <a href="/account/saved-cards">Manage Credit Cards</a>
+                            <img class="vector-arrow" src="/assets/VectorBlack.png" alt="" />
+                        </li>
+                        <li class="link--red">
+                            <a href="/account/delete-account">Delete My Account</a>
+                            <img class="vector-arrow" src="/assets/VectorRed.png" alt="" />
+                        </li>
+                    </ul>
+                </div>
+                <form>
+                    <div class="form-group__account">
+                        <h4 for="name">Update Name</h4>
+                        <p>Name shouldn’t exceed length of 20 characters. Your name will take effect from next booking.
+                        </p>
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" value="<%=name%>" required />
+                    </div>
+                    <div class="form-group__account">
+                        <h4 for="name">Update Phone Number</h4>
+                        <p>You'll be redirected to verification page, after you change and save your phone number.</p>
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" value="<%=phone%>" required />
+                    </div>
+                    <div class="form-group__account">
+                        <h4 for="name">Change Password</h4>
+                        <p>You'll be logged out from all devices except this one, after you change your password.</p>
+                        <label for="current_password">Current Password</label>
+                        <input type="password" class="form-control" id="current_password" placeholder="Current Password"
+                            required />
+                    </div>
+                    <div class="form-group__account">
+                        <label for="new_password">New Password</label>
+                        <input type="password" class="form-control disabled-input" id="new_password"
+                            placeholder="New Password" required disabled="true" />
+                    </div>
+                </form>
+            </div>
+            <div class="account-btn save-btn">
+                <button class="btn-primary">
+                    Save Changes
+                    <img src="/assets/Vector-tick.png" class="checkmark" alt="" />
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="/js/account-settings.js"></script>
+
+    <%- include('./partials/_footer') %>

@@ -1,0 +1,176 @@
+<%- include('./partials/_header_booking', {TITLE: title}) %>
+    <nav>
+        <% if(session_id==="" ){ %>
+            <div class="burger" id='burger'>
+                <img class="burger__vector" src="/assets/burger.png" alt="burger Vector" />
+            </div>
+            <ul id="navLinks">
+                <div class="burger burger__close" id='burger-alt'>
+                    <img class="burger__vector" src="/assets/close.svg" alt="burger Vector" />
+                </div>
+                <li class="nav-col"><a href="/booking">Book a Job</a></li>
+                <li><a href="/booking/history">Booking History</a></li>
+                <li id="empty"></li>
+                <li class="dropdown" id="dropdown">
+                    <div class="accordian-label dropbtn"><a href="/dashboard">Dashboard</a><img
+                            src="/assets/arrow-down.svg" alt=""></div>
+                    <div class="dropdown-content"><a href="/account/settings">Account Settings</a></div>
+                </li>
+
+                <li class="link--red"><a href="/logout">Logout</a></li>
+                <img src="/assets/logo.png" class="logo" alt="logo" />
+            </ul>
+            <img src="/assets/logo.png" class="logo" alt="logo" id="img-logo" />
+            <% }else { %>
+                <img src="/assets/logo.png" class="logo" alt="logo" id="img-logo" data-session="<%=session_id%>"
+                    data-booking="quote" />
+                <%}%>
+                    <% if(session_id==="" ) {%>
+                        <script>
+                            // Nav Opener
+                            const burger = document.getElementById('burger');
+                            const burgerClose = document.getElementById('burger-alt')
+                            const navLinks = document.getElementById('navLinks')
+                            burger.onclick = () => {
+                                navLinks.style.display = 'flex';
+                            }
+                            burgerClose.onclick = () => {
+                                navLinks.style.display = 'none';
+                            }
+                            const dashboard = document.getElementById('empty');
+                            const accSettings = document.getElementById('dropdown');
+
+                            window.addEventListener("resize", function () {
+                                const width = document.documentElement.clientWidth;
+                                if (width > 768) {
+                                    dashboard.innerHTML = '';
+                                    accSettings.innerHTML = `<div class="accordian-label dropbtn"><a href="/dashboard">Dashboard</a><img
+                        src="/assets/arrow-down.svg" alt=""></div>
+                <div class="dropdown-content"><a href="/account/settings">Account Settings</a></div>`;
+                                    // dashboard.classList.add('nav-col');
+                                }
+                            }, { once: true })
+
+                            if (window.innerWidth < 768) {
+                                accSettings.innerHTML = "";
+                                dashboard.innerHTML = '<a href="/dashboard">Dashboard</a>';
+                                dashboard.style.display = "block";
+                                accSettings.innerHTML = '<a href="/account/settings">Account Settings</a>';
+                            }
+                        </script>
+                        <% } %>
+    </nav>
+    <div class="container">
+        <div class="connection-points">
+            <span class="line"></span>
+            <div class="connector__line">
+                <%if(session_id===""){%>
+                    <a href="/booking/step-1" class="connector__marker connector__marker--enabled">Delivery Priority</a>
+                    <a href="#" class="connector__marker">Vehicle/Parcel Type</a>
+                    <a href="#" class="connector__marker">Pickup Details</a>
+                    <a href="#" class="connector__marker">Delivery Details</a>
+                    <a href="#" class="connector__marker">Confirm & Pay</a>
+                    <%}else{%>
+                        <a href="/quote/step-1/<%=session_id%>"
+                            class="connector__marker connector__marker--enabled">Delivery
+                            Priority</a>
+                        <a href="#" class="connector__marker">Vehicle/Parcel Type</a>
+                        <a href="#" class="connector__marker">Pickup Details</a>
+                        <a href="#" class="connector__marker">Delivery Details</a>
+                        <a href="#" class="connector__marker">Confirm & Pay</a>
+                        <%}%>
+            </div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-bar__items progress-bar__item--enabled">
+                <a href="#" class="">
+                    <div>1</div>
+                    <p>Delivery Priority</p>
+                </a>
+            </div>
+            <div class="progress-bar__items">
+                <a class="">
+                    <div>2</div>
+                    <p>Vehicle/Parcel Type</p>
+                </a>
+            </div>
+            <div class="progress-bar__items">
+                <a class="">
+                    <div>3</div>
+                    <p>Pickup Details</p>
+                </a>
+            </div>
+            <div class="progress-bar__items">
+                <a class="">
+                    <div>4</div>
+                    <p>Delivery Details</p>
+                </a>
+            </div>
+            <div class="progress-bar__items">
+                <a class="">
+                    <div>5</div>
+                    <p>Confirm & Pay</p>
+                </a>
+            </div>
+        </div>
+        <h1 class="delivery_priority">Select Delivery Priority</h1>
+        <div class="main-selector" id="main-selector">
+            <div class="item item1">
+                <label for="main1" class="main__label">
+                    <input type="radio" class="main__radio" name="main__active" id="main1" onchange="checkServices()"
+                        checked />
+                    <span class="custom__radio"></span>
+                    Book for Now
+                </label>
+            </div>
+            <div class="item item2">
+                <label for="main2" class="main__label">
+                    <input type="radio" class="main__radio" name="main__active" id="main2" onchange="setDefault()" />
+                    <span class="custom__radio"></span>
+                    Book for Later</label>
+            </div>
+        </div>
+        <form>
+            <div id="inputs">
+                <div class="form-group">
+                    <label for="date">Booking Date</label>
+                    <input type="date" class="form-control" id="date" placeholder="Select Booking Date"
+                        onchange="setBookingDate(this)" />
+                </div>
+                <div class="form-group">
+                    <label for="time">Booking Time</label>
+                    <input type="time" class="form-control" id="time" placeholder="Select Booking Time"
+                        onchange="bookingTime(this)" />
+                </div>
+            </div>
+            <div class="delivery">
+                <input type="radio" class="delivery__radio time__inactive" name="delivery__active" id="btn1"
+                    value="flat-rate" />
+                <label id="btn1-label" for="btn1" class="delivery__label" onclick="selectedService(this)"
+                    data-value="flatRate">Flat rate</label>
+                <input type="radio" class="delivery__radio" name="delivery__active" id="btn2" value="standard" />
+                <label id="btn2-label" for="btn2" class="delivery__label" onclick="selectedService(this)"
+                    data-value="standard">Standard</label>
+                <input type="radio" class="delivery__radio" name="delivery__active" id="btn3" value="vip" />
+                <label id="btn3-label" for="btn3" class="delivery__label" onclick="selectedService(this)"
+                    data-value="vip">VIP</label>
+                <input type="radio" class="delivery__radio" name="delivery__active" id="btn4" value="express" />
+                <label id="btn4-label" for="btn4" class="delivery__label" onclick="selectedService(this)"
+                    data-value="express">Express</label>
+                <input type="radio" class="delivery__radio" name="delivery__active" id="btn5" value="paxi" />
+                <label id="btn5-label" for="btn5" class="delivery__label" onclick="selectedService(this)"
+                    data-value="paxi">PAXI</label>
+            </div>
+        </form>
+        <div class="submit-bar">
+            <small><a href="#" class="link">Know more about Delivery Priorities</a></small>
+            <button class="btn-primary" id="submitBtn" style="cursor: pointer;" onclick="submitStep1()">
+                Next <img src="/assets/Right Arrow.png" alt="arrow" />
+            </button>
+        </div>
+    </div>
+    <script src="/js/moment.js"></script>
+    <script src="/js/moment-data.js"></script>
+    <script src="/js/step-1.js"></script>
+
+    <%- include('./partials/_footer') %>

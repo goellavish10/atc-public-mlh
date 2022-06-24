@@ -1,0 +1,17 @@
+<%- include('./partials/_header', {TITLE: title}) %>
+    <div class="container">
+        <form>
+            <div class="form-header">
+                <img src="/assets/logo.png" class="logo" alt="logo">
+                <div class="heading ext">
+                    <img src="/assets/Vector.png" alt="sent" id="sent" class="sent">
+                    <h3>Email Sent</h3>
+                </div>
+            </div>
+            <small>
+                <%=content%>
+            </small>
+            <a href="/login" class="link_login">Go to Login</a>
+        </form>
+    </div>
+    <%- include('./partials/_footer') %>

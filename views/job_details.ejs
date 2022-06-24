@@ -1,0 +1,282 @@
+<%- include('./partials/_dashboard_header', { TITLE: title }) %>
+    <nav>
+        <div class="burger" id='burger'>
+            <img class="burger__vector" src="/assets/burger.png" alt="burger Vector" />
+        </div>
+        <ul id="navLinks">
+            <div class="burger burger__close" id='burger-alt'>
+                <img class="burger__vector" src="/assets/close.svg" alt="burger Vector" />
+            </div>
+            <li class="nav-col"><a href="/booking">Bookings</a></li>
+            <li id="empty"></li>
+            <li class="dropdown" id="dropdown">
+                <div class="accordian-label dropbtn nav-col"><a href="/dashboard">Dashboard</a><img
+                        src="/assets/arrow-down.svg" alt=""></div>
+                <div class="dropdown-content"><a href="/account/settings">Account Settings</a></div>
+            </li>
+            <li id="empty"></li>
+            <li><a href="/booking/history">Booking History</a></li>
+            <li><a href="/logout" style="color: #E01B1B;">Logout</a></li>
+            <img src="/assets/logo.png" class="logo" alt="logo" />
+        </ul>
+        <img src="/assets/logo.png" class="logo" alt="logo" />
+        <script>
+            // Nav Opener
+            const burger = document.getElementById('burger');
+            const burgerClose = document.getElementById('burger-alt')
+            const navLinks = document.getElementById('navLinks')
+            burger.onclick = () => {
+                navLinks.style.display = 'flex';
+            }
+            burgerClose.onclick = () => {
+                navLinks.style.display = 'none';
+            }
+            const dashboard = document.getElementById('empty');
+            const accSettings = document.getElementById('dropdown');
+
+            const navDisplay = window.matchMedia("(max-width: 768px)");
+            if (navDisplay.matches) {
+                console.log("mobile layout")
+                dashboard.innerHTML = '<a href="/dashboard">Dashboard</a>';
+                accSettings.innerHTML = '<a href="/account/settings">Account Settings</a>';
+                accSettings.classList.add('nav-col');
+            }
+            else {
+                dashboard.innerHTML = '';
+                accSettings.innerHTML = `<div class="accordian-label dropbtn nav-col">Dashboard<img src="../assets/arrow-down.svg" alt=""></div> <div class="dropdown-content"><a href="#">Account Settings</a></div >`;
+                dashboard.classList.add('nav-col');
+            }
+        </script>
+    </nav>
+    <div class="container">
+        <h1 class="delivery_priority">Job ID <%= jobId %> Details</h1>
+        <div class="job-content">
+            <div class="details">
+                <div class="details__imp">
+                    <p>Estimated Delivery Time: <span>
+                            <%=estimatedDeliveryTime%>
+                        </span></p>
+                    <p>Booking Date: <span>
+                            <%=bookingDate.split("T")[0]%>
+                        </span></p>
+                    <p>Booked For: <span>
+                            <%=bookedFor%>
+                        </span></p>
+                    <p>Service Level: <span>
+                            <%=serviceLevel%>
+                        </span></p>
+                    <p>Service: <span>
+                            <%=service%>
+                        </span></p>
+                </div>
+                <div class="details__pickup">
+                    <div class="accordian-item">
+                        <div class="drop-header accordian-label">Pickup Details <img src="/assets/arrow-down.svg"
+                                alt=""></div>
+                        <div class="accordian-content">
+                            <p>Sender Name: <span>
+                                    <%=pickupDetails.name%>
+                                </span></p>
+                            <% if(pickupDetails.addressDetails.businessName) {%>
+                                <p>Business Name: <span>
+                                        <%=pickupDetails.addressDetails.businessName%>
+                                    </span></p>
+                                <%}else{%>
+                                    <p>Business Name: <span>-</span></p>
+                                    <%}%>
+                                        <p>Sender Phone No: <span>
+                                                <%=pickupDetails.phoneNumber%>
+                                            </span></p>
+                                        <p>
+                                            Pickup Street Address: <span>
+                                                <%=pickupDetails.addressDetails.address%>
+                                            </span>
+                                        </p>
+                                        <p>Postcode: <span>
+                                                <%=pickupDetails.addressDetails.postcode%>
+                                            </span></p>
+                                        <% if(pickupDetails.addressDetails.unit) {%>
+                                            <p>Unit/Suit/Level: <span>
+                                                    <%=pickupDetails.addressDetails.unit%>
+                                                </span></p>
+                                            <%}else{%>
+                                                <p>Unit/Suit/Level: <span>-</span></p>
+                                                <%}%>
+                                                    <p>Pickup Suburb: <span>
+                                                            <%=pickupSuburb%>
+                                                        </span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="details__delivery">
+                    <div class="accordian-item">
+                        <div class="drop-header accordian-label">Delivery Details <img src="/assets/arrow-down.svg"
+                                alt=""></div>
+                        <div class="accordian-content">
+                            <p>Recepient Name: <span>
+                                    <%=deliveryDetails.name%>
+                                </span></p>
+                            <% if(deliveryDetails.addressDetails.businessName) {%>
+                                <p>Business Name: <span>
+                                        <%=deliveryDetails.addressDetails.businessName%>
+                                    </span></p>
+                                <%}else{%>
+                                    <p>Business Name: <span>-</span></p>
+                                    <%}%>
+                                        <p>Recepient Phone No: <span>
+                                                <%=deliveryDetails.phoneNumber%>
+                                            </span></p>
+                                        <p>
+                                            Delivery Street Address: <span>
+                                                <%=deliveryDetails.addressDetails.address%>
+                                            </span>
+                                        </p>
+                                        <p>Postcode: <span>
+                                                <%=deliveryDetails.addressDetails.postcode%>
+                                            </span></p>
+                                        <% if(pickupDetails.addressDetails.unit) {%>
+                                            <p>Unit/Suit/Level: <span>
+                                                    <%=deliveryDetails.addressDetails.unit%>
+                                                </span></p>
+                                            <%}else{%>
+                                                <p>Unit/Suit/Level: <span>-</span></p>
+                                                <%}%>
+                                                    <p>Delivery Suburb: <span>
+                                                            <%=deliverySuburb%>
+                                                        </span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="details__imp reference">
+                    <% if(reference !=="" ) {%>
+                        <p>Reference: <span>
+                                <%=reference%>
+                            </span></p>
+                        <% } else { %>
+                            <p>Reference: <span>
+                                    -
+                                </span></p>
+                            <% } %>
+
+                </div>
+                <div class="driver__instruction reference-border">
+                    <p class="drop-header">Driver Instructions</p>
+                    <% if(driverInstructions !=="" ) {%>
+                        <p class="driver_content">
+                            <%=driverInstructions%>
+                        </p>
+                        <% } else { %>
+                            <p class="driver_content">
+                                -
+                            </p>
+                            <% } %>
+                </div>
+                <div class="details__dp">
+                    <div class="drop-header">
+                        <p>Total Distance: <span>
+                                <%=distance%>
+                            </span></p>
+                    </div>
+                    <div class="final-price drop-header">
+                        <p>Total Price: <span>$<%=price%></span></p>
+                    </div>
+                    <small class="gst">(GST Inclusive)</small>
+                    <div class="final-button">
+                        <!-- Remove Inactive class to change the state of the button -->
+                        <% if(pod !==undefined){%>
+                            <button class="btn btn-tertiary ">
+                                <a class="text" href="<%=pod%>" target="_blank" id='pod-btn'> Download Proof of Delivery
+                                </a><img src="/assets/POD.svg" alt="">
+                            </button>
+                            <% }else{ %>
+                                <button class="btn btn-tertiary inactive">
+                                    <a class="text" id='pod-btn'> Download Proof of
+                                        Delivery </a><img src="/assets/POD.svg" alt="">
+                                </button>
+                                <% } %>
+                                    <small>Proof of Delivery (POD) can be downloaded once the job has been
+                                        completed</small>
+                                    <a href="<%=label%>" class="print" target="_blank">Print Label <img
+                                            src="/assets/print.png" alt=""></a>
+                    </div>
+                </div>
+            </div>
+            <div class="details-header">
+                <h2>Courier Details</h2>
+            </div>
+            <div class="map" id="map"></div>
+            <div class="map-caption">Your courier can be tracked through this map. You will see your courier on this map
+                as soon as the driver picks your courier. </div>
+            <div class="tracking">
+                <div class="details__imp right-block">
+                    <p>Status: <span>
+                            <%=status%>
+                        </span></p>
+                    <!-- <p>Car No: <span>-</span></p> -->
+                    <% if(deliveredTime!==undefined) {%>
+                        <p>Delivered: <span>
+                                <%= deliveredTime %>
+                            </span></p>
+                        <% }else{ %>
+                            <p>Delivered: <span>-</span></p>
+                            <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/jobDetails.js"></script>
+    <% if(lat !==undefined) {%>
+        <script>
+            window.addEventListener("load", () => {
+                localStorage.clear()
+                // window.location.reload();
+                const url = new URLSearchParams(window.location.search);
+                localStorage.setItem("lat", "<%=lat%>");
+                localStorage.setItem("long", "<%=long%>");
+
+
+                const lat = localStorage.getItem("lat");
+                const long = localStorage.getItem("long");
+
+                // Create the script tag, set the appropriate attributes
+                let script = document.createElement('script');
+                script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCnkuiKUnwUUZduua44JjTiyi7T3wyrxmo&callback=initMap';
+                script.async = true;
+
+                // Attach your callback function to the `window` object
+                window.initMap = async function () {
+                    // JS API is loaded and available
+                    const options = {
+                        zoom: 15,
+                        center: { lat: +lat, lng: +long },
+                    }
+
+                    const map = new google.maps.Map(document.getElementById("map"), options);
+                    const service = new google.maps.DistanceMatrixService();
+
+                    const origin = { lat: +lat, lng: +long };
+                    addMarker({ coord: { lat: +lat, lng: +long }, content: "<h2>Driver Location</h2>" });
+
+                    function addMarker(props) {
+                        const marker = new google.maps.Marker({
+                            position: props.coord,
+                            map: map
+                        })
+
+                        if (props.content) {
+                            const infoWindow = new google.maps.InfoWindow({
+                                content: props.content,
+                            })
+
+                            marker.addListener('click', function () {
+                                infoWindow.open(map, marker);
+                            })
+                        }
+                    }
+                };
+
+                document.head.appendChild(script);
+            })
+        </script>
+        <% } %>
+            <%- include('./partials/_footer') %>

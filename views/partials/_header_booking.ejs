@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        <%= TITLE %>
+    </title>
+    <link rel="icon" type="image/x-icon" href="/assets/atcfav.ico">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="/css/booking.css" />
+    <%if(TITLE==="Checkout" || TITLE==="Booking History" ){%>
+        <link rel="stylesheet" type="text/css" href="/css/checkout.css" />
+        <link rel="stylesheet" type="text/css" href="/css/history.css" />
+        <%}%>
+            <% if(TITLE==="Booking Step 2 -- Flat Rate" ){ %>
+                <style>
+                    .label__img img {
+                        max-height: 200px;
+                        /* width: auto; */
+                    }
+                </style>
+                <%}%>
+                    <% if(TITLE==="Booking History" ){ %>
+                        <link rel="stylesheet" type="text/css" href="/css/dashboard.css" />
+                        <%}%>
+                            <style>
+                                .accordian-label {
+                                    display: flex;
+                                    width: 100%;
+                                    cursor: pointer;
+                                    font-size: 1.75rem;
+                                }
+
+                                .accordian-label img {
+                                    max-width: 1rem;
+                                    margin-block: auto;
+                                    margin-left: 1rem;
+                                    transition: transform 300ms ease;
+                                }
+                            </style>
+</head>
+
+<body>

@@ -1,0 +1,329 @@
+<%- include('./partials/_header', {TITLE: title}) %>
+    <nav>
+        <div class="burger" id='burger'>
+            <img class="burger__vector" src="/assets/burger.png" alt="burger Vector" />
+        </div>
+        <ul id="navLinks">
+            <div class="burger burger__close" id='burger-alt'>
+                <img class="burger__vector" src="/assets/close.svg" alt="burger Vector" />
+            </div>
+            <li><a href="/booking">Book a Job</a></li>
+            <li><a href="/booking/history">Booking History</a></li>
+            <li id="empty"></li>
+            <li class="dropdown" id="dropdown">
+                <div class="accordian-label dropbtn nav-col">Dashboard<img src="/assets/arrow-down.svg" alt=""></div>
+                <div class="dropdown-content"><a href="/account/settings">Account Settings</a></div>
+            </li>
+            <li class="link--red"><a href="/logout">Logout</a></li>
+            <img src="/assets/logo.png" class="logo" alt="logo" />
+        </ul>
+        <img src="/assets/logo.png" class="logo" alt="logo" />
+        <script>
+            // Nav Opener
+            const burger = document.getElementById('burger');
+            const burgerClose = document.getElementById('burger-alt')
+            const navLinks = document.getElementById('navLinks')
+            burger.onclick = () => {
+                navLinks.style.display = 'flex';
+            }
+            burgerClose.onclick = () => {
+                navLinks.style.display = 'none';
+            }
+            const dashboard = document.getElementById('empty');
+            const accSettings = document.getElementById('dropdown');
+
+            const navDisplay = window.matchMedia("(max-width: 768px)");
+            if (navDisplay.matches) {
+                dashboard.innerHTML = 'Dashboard';
+                accSettings.innerHTML = 'Account Settings';
+                accSettings.classList.add('nav-col');
+            }
+            else {
+                dashboard.innerHTML = '';
+                accSettings.innerHTML = `<div class="accordian-label dropbtn nav-col">Dashboard<img src="../assets/arrow-down.svg" alt=""></div> <div class="dropdown-content"><a href="#">Account Settings</a></div >`;
+                dashboard.classList.add('nav-col');
+            }
+        </script>
+    </nav>
+    <div class="container">
+        <!-- noData -->
+        <h1 class="delivery_priority">Manage Saved Address</h1>
+        <div class="acc-settings__container">
+            <div class="acc-settings__list">
+                <ul>
+                    <li>
+                        <a href="/account/settings">Account Settings</a>
+                        <img class="vector-arrow" src="/assets/VectorBlack.png" alt="" />
+                    </li>
+                    <li class="link--active">
+                        <a href="/account/saved-addresses">Manage Saved Address</a>
+                        <img class="vector-arrow" src="/assets/VectorWhite.png" alt="" />
+                    </li>
+                    <li>
+                        <a href="/account/saved-cards">Manage Credit Cards</a>
+                        <img class="vector-arrow" src="/assets/VectorBlack.png" alt="" />
+                    </li>
+                    <li class="link--red">
+                        <a href="/account/delete-account">Delete My Account</a>
+                        <img class="vector-arrow" src="/assets/VectorRed.png" alt="" />
+                    </li>
+                </ul>
+            </div>
+            <div class="account-address">
+                <div class="account-btn add-btn">
+                    <button class="btn-primary acc-btn" onclick="showModal()">
+                        <img src="/assets/plus.png" alt="" />
+                        Add New Address
+                    </button>
+                </div>
+                <div class="address-container" id="address-container_0">
+                    <div class="current-address">
+                        <div class="edit-form-info" id="info_0">
+                            <p><span>Business Name:</span>&nbsp; &nbsp;<span class="value">Energizer Industries</span>
+                            </p>
+                            <p><span>Street Address:</span>&nbsp; &nbsp;<span class="value">71 Mimosa Road, Bossley Park
+                                    NSW, Australia</span></p>
+                            <div class="grid-box">
+                                <p><span>Suburb:</span>&nbsp; &nbsp;<span class="value">MOOREBANK</span></p>
+                                <p><span>Postcode:</span>&nbsp; &nbsp;<span class="value">2170</span></p>
+                            </div>
+                        </div>
+                        <div class="item-container edit-form" id="edit-form_0">
+                            <div class="item">
+                                <label for="main1" class="main__label">
+                                    <h5 class="modal-add">Business Name</h5>
+                                </label>
+                                <input type="text" placeholder="Business Name" class="reference" />
+                            </div>
+                            <div class="item">
+                                <label for="main2" class="main__label">
+                                    <h5 class="modal-add">Street Address</h5>
+                                </label>
+                                <input type="text" placeholder="Street Address" class="reference street-address"
+                                    required />
+                            </div>
+                            <div class="grid-box">
+                                <div class="item">
+                                    <label for="main3" class="main__label">
+                                        <h5 class="modal-add">Suburb</h5>
+                                    </label>
+                                    <input type="text" placeholder="Suburb" class="reference" />
+                                </div>
+                                <div class="item">
+                                    <label for="main4" class="main__label">
+                                        <h5 class="modal-add disabled-form-item">Postcode</h5>
+                                    </label>
+                                    <input type="number" placeholder="Postcode" class="reference disabled-form-input"
+                                        disabled />
+                                </div>
+                            </div>
+                            <div class="edit-form-btn">
+                                <button class="btn-primary"
+                                    onclick="saveForm('edit-form_0', 'info_0', 'img_0', 'address-container_0')">
+                                    Save <img src="/assets/Vector-tick.png" alt="arrow" id="filter-img" />
+                                </button>
+                                <button class="cancel-btn"
+                                    onclick="saveForm('edit-form_0', 'info_0', 'img_0', 'address-container_0')">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="editing-images" id="img_0">
+                        <button id="edit-btn"
+                            onclick="showForm('edit-form_0', 'info_0', 'img_0', 'address-container_0')">
+                            <img src="/assets/edit.png" alt="edit" />
+                            <p class="link--blue">Edit</p>
+                        </button>
+                        <button>
+                            <img src="/assets/del.png" alt="delete" />
+                            <p class="link--red">Delete</p>
+                        </button>
+                    </div>
+                </div>
+
+
+
+                <div class="address-container" id="address-container_1">
+                    <div class="current-address">
+                        <div class="edit-form-info" id="info_1">
+                            <p><span>Business Name:</span>&nbsp; &nbsp;<span class="value">Energizer Industries</span>
+                            </p>
+                            <p><span>Street Address:</span>&nbsp; &nbsp;<span class="value">71 Mimosa Road, Bossley Park
+                                    NSW, Australia</span></p>
+                            <p><span>Suburb:</span>&nbsp; &nbsp;<span class="value">MOOREBANK</span></p>
+                            <p><span>Postcode:</span>&nbsp; &nbsp;<span class="value">2170</span></p>
+                        </div>
+                        <div class="item-container edit-form" id="edit-form_1">
+                            <div class="item">
+                                <label for="main1" class="main__label">
+                                    <h5 class="modal-add">Business Name</h5>
+                                </label>
+                                <input type="text" placeholder="Business Name" class="reference" />
+                            </div>
+                            <div class="item">
+                                <label for="main2" class="main__label">
+                                    <h5 class="modal-add">Street Address</h5>
+                                </label>
+                                <input type="text" placeholder="Street Address" class="reference street-address"
+                                    required />
+                            </div>
+                            <div class="grid-box">
+                                <div class="item">
+                                    <label for="main3" class="main__label">
+                                        <h5 class="modal-add">Suburb</h5>
+                                    </label>
+                                    <input type="text" placeholder="Suburb" class="reference" />
+                                </div>
+                                <div class="item">
+                                    <label for="main4" class="main__label">
+                                        <h5 class="modal-add disabled-form-item">Postcode</h5>
+                                    </label>
+                                    <input type="number" placeholder="Postcode" class="reference disabled-form-input"
+                                        disabled />
+                                </div>
+                            </div>
+                            <div class="edit-form-btn">
+                                <button class="btn-primary"
+                                    onclick="saveForm('edit-form_1', 'info_1', 'img_1', 'address-container_1')">
+                                    Save <img src="/assets/Vector-tick.png" alt="arrow" id="filter-img" />
+                                </button>
+                                <button class="cancel-btn"
+                                    onclick="saveForm('edit-form_1', 'info_1', 'img_1', 'address-container_1')">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="editing-images" id="img_1">
+                        <button id="edit-btn"
+                            onclick="showForm('edit-form_1', 'info_1', 'img_1', 'address-container_1')">
+                            <img src="/assets/edit.png" alt="edit" />
+                            <p class="link--blue">Edit</p>
+                        </button>
+                        <button>
+                            <img src="/assets/del.png" alt="delete" />
+                            <p class="link--red">Delete</p>
+                        </button>
+                    </div>
+                </div>
+
+
+
+                <div class="address-container" id="address-container_2">
+                    <div class="current-address">
+                        <div class="edit-form-info" id="info_2">
+                            <p><span>Business Name:</span>&nbsp; &nbsp;<span class="value">Energizer Industries</span>
+                            </p>
+                            <p><span>Street Address:</span>&nbsp; &nbsp;<span class="value">71 Mimosa Road, Bossley Park
+                                    NSW, Australia</span></p>
+                            <p><span>Suburb:</span>&nbsp; &nbsp;<span class="value">MOOREBANK</span></p>
+                            <p><span>Postcode:</span>&nbsp; &nbsp;<span class="value">2170</span></p>
+                        </div>
+                        <div class="item-container edit-form" id="edit-form_2">
+                            <div class="item">
+                                <label for="main1" class="main__label">
+                                    <h5 class="modal-add">Business Name</h5>
+                                </label>
+                                <input type="text" placeholder="Business Name" class="reference" />
+                            </div>
+                            <div class="item">
+                                <label for="main2" class="main__label">
+                                    <h5 class="modal-add">Street Address</h5>
+                                </label>
+                                <input type="text" placeholder="Street Address" class="reference street-address"
+                                    required />
+                            </div>
+                            <div class="grid-box">
+                                <div class="item">
+                                    <label for="main3" class="main__label">
+                                        <h5 class="modal-add">Suburb</h5>
+                                    </label>
+                                    <input type="text" placeholder="Suburb" class="reference" />
+                                </div>
+                                <div class="item">
+                                    <label for="main4" class="main__label">
+                                        <h5 class="modal-add disabled-form-item">Postcode</h5>
+                                    </label>
+                                    <input type="number" placeholder="Postcode" class="reference disabled-form-input"
+                                        disabled />
+                                </div>
+                            </div>
+                            <div class="edit-form-btn">
+                                <button class="btn-primary"
+                                    onclick="saveForm('edit-form_2', 'info_2', 'img_2', 'address-container_2')">
+                                    Save <img src="/assets/Vector-tick.png" alt="arrow" id="filter-img" />
+                                </button>
+                                <button class="cancel-btn"
+                                    onclick="saveForm('edit-form_2', 'info_2', 'img_2', 'address-container_2')">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="editing-images" id="img_2">
+                        <button id="edit-btn"
+                            onclick="showForm('edit-form_2', 'info_2', 'img_2', 'address-container_2')">
+                            <img src="/assets/edit.png" alt="edit" />
+                            <p class="link--blue">Edit</p>
+                        </button>
+                        <button>
+                            <img src="/assets/del.png" alt="delete" />
+                            <p class="link--red">Delete</p>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="noData__container">
+                <h3>No Saved Address Here</h3>
+                <a href="#" class="link link_arrow">Add New Address<img src="./assets/Arrow-right.png" alt=""></a>
+            </div>
+
+
+
+
+            <div class="modal account-modal edit-modal address-modal" id="modalContent">
+                <div class="modal-content">
+                    <div class="modal_heading">
+                        <h2>Add New Address</h2>
+                        <button class="close" onclick="closeModal()">
+                            <img src="/assets/close.svg" class="cross" alt="close" />
+                        </button>
+                    </div>
+                    <div class="item-container">
+                        <div class="item">
+                            <label for="main1" class="main__label">
+                                <h5 class="modal-add">Business Name (optional)</h5>
+                            </label>
+                            <input type="text" placeholder="Business Name" class="reference" />
+                        </div>
+                        <div class="item">
+                            <label for="main2" class="main__label">
+                                <h5 class="modal-add">Street Address</h5>
+                            </label>
+                            <input type="text" placeholder="Street Address" class="reference street-address" required />
+                        </div>
+                        <div class="item">
+                            <label for="main3" class="main__label">
+                                <h5 class="modal-add">Suburb</h5>
+                            </label>
+                            <input type="text" placeholder="Suburb" class="reference" />
+                        </div>
+                        <div class="item">
+                            <label for="main4" class="main__label">
+                                <h5 class="modal-add disabled-item">Postcode</h5>
+                            </label>
+                            <input type="number" placeholder="Postcode" class="reference disabled-input" disabled />
+                        </div>
+                    </div>
+                    <button class="btn-primary btn-add add-card">
+                        Add this Card <img src="/assets/Right Arrow.png" alt="arrow" id="filter-img" />
+                    </button>
+                </div>
+            </div>
+            <div class="modal_bg" onclick="closeModal()"></div>
+
+        </div>
+    </div>
+
+    <script src="/js/account.js"></script>
+    <script src="/js/editAddress.js"></script>
+
+    <%- include('./partials/_footer') %>

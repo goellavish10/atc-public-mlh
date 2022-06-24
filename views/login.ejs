@@ -1,0 +1,50 @@
+<%- include('./partials/_header', {TITLE: title}) %>
+
+    <div class="container">
+        <form action="/login" method="post" id="form">
+            <div class="form-header">
+                <img src="/assets/logo.png" class="logo" alt="logo" />
+            </div>
+            <div class="form-group">
+                <label for="email">Email address / Phone Number</label>
+                <input class="form-control" id="email" aria-describedby="emailHelp"
+                    placeholder="Enter Email Address or Phone Number" name="username" onkeyup="removeError()" />
+                <small class="error-msg" id="email-error">Email/Phone or Password doesn't match</small>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter Password"
+                    name="password" />
+                <a href="/password-reset" class="link link--input-link"><small class="input-link">Forgot
+                        Password</small></a>
+            </div>
+            <button type="submit" class="btn btn-primary" id="login">Login</button>
+            <small id="emailHelp" class="form-text text-muted login-form-link">Don't have an account?
+                <a href="/sign-up" class="link">Create Account</a></small>
+        </form>
+    </div>
+    <script type="text/javascript">
+        const params = new URLSearchParams(window.location.search)
+        for (const [key, value] of params) {
+            if (value === 'new-user') {
+                document.getElementById("form").classList.add("error")
+                document.getElementById("email-error").classList.add("error-popup");
+                document.getElementById("email-error").textContent = "Please verify your email address by clicking the link in your inbox."
+            }
+            if (value === 'wrong') {
+                document.getElementById("form").classList.add("error")
+                document.getElementById("email-error").classList.add("error-popup");
+            }
+            if (value === 'session-expired') {
+                document.getElementById("form").classList.add("error")
+                document.getElementById("email-error").classList.add("error-popup");
+                document.getElementById("email-error").textContent = "Session Expired. Please Login again."
+            }
+        }
+
+        function removeError() {
+            document.getElementById("form").classList.remove("error")
+            document.getElementById("email-error").classList.remove("error-popup");
+        }
+    </script>
+    <%- include('./partials/_footer') %>

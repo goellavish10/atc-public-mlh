@@ -1,0 +1,25 @@
+<%- include('./partials/_header', {TITLE: title}) %>
+
+    <div class="container">
+        <form class="" id="form" onsubmit="submitOtp(event)">
+            <div class="form-header">
+                <img src="/assets/logo.png" class="logo" alt="logo">
+            </div>
+            <small>
+                We've sent a 6 digit One Time Password (OTP) to your mobile number ending with +61 xxxx<%=phone%>. The
+                    OTP will be valid for only 5 minutes. Do not share that OTP with anyone else.
+            </small>
+            <div class="form-group">
+                <label for="password">Enter OTP</label>
+                <input type="text" class="form-control" id="otp" placeholder="Enter 6 digit OTP" name="otp"
+                    onkeyup="removeError()" />
+                <small class="error-msg" id="otp-error">Blah@</small>
+            </div>
+            <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+            <small id="otpResend" class="form-text text-muted login-form-link">Didn't receive OTP?
+                <a href="" class="link" id="resend-code">Resend Code</a></small>
+
+        </form>
+    </div>
+    <script src="/js/otp.js"></script>
+    <%- include('./partials/_footer') %>

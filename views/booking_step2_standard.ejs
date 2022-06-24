@@ -1,0 +1,262 @@
+<%- include('./partials/_header_booking', {TITLE: title}) %>
+    <nav>
+        <% if(session_id==="" ){ %>
+            <div class="burger" id='burger'>
+                <img class="burger__vector" src="/assets/burger.png" alt="burger Vector" />
+            </div>
+            <ul id="navLinks">
+                <div class="burger burger__close" id='burger-alt'>
+                    <img class="burger__vector" src="/assets/close.svg" alt="burger Vector" />
+                </div>
+                <li class="nav-col"><a href="/booking">Book a Job</a></li>
+                <li><a href="/booking/history">Booking History</a></li>
+                <li id="empty"></li>
+                <li class="dropdown" id="dropdown">
+                    <div class="accordian-label dropbtn"><a href="/dashboard">Dashboard</a><img
+                            src="/assets/arrow-down.svg" alt=""></div>
+                    <div class="dropdown-content"><a href="/account/settings">Account Settings</a></div>
+                </li>
+
+                <li class="link--red"><a href="/logout">Logout</a></li>
+                <img src="/assets/logo.png" class="logo" alt="logo" />
+            </ul>
+            <img src="/assets/logo.png" class="logo" alt="logo" id="img-logo" />
+            <% }else { %>
+                <img src="/assets/logo.png" class="logo" alt="logo" id="img-logo" data-session="<%=session_id%>"
+                    data-booking="quote" />
+                <%}%>
+                    <% if(session_id==="" ) {%>
+                        <script>
+                            // Nav Opener
+                            const burger = document.getElementById('burger');
+                            const burgerClose = document.getElementById('burger-alt')
+                            const navLinks = document.getElementById('navLinks')
+                            burger.onclick = () => {
+                                navLinks.style.display = 'flex';
+                            }
+                            burgerClose.onclick = () => {
+                                navLinks.style.display = 'none';
+                            }
+                            const dashboard = document.getElementById('empty');
+                            const accSettings = document.getElementById('dropdown');
+
+                            const navDisplay = window.matchMedia("(max-width: 768px)");
+                            if (navDisplay.matches) {
+                                console.log("mobile layout")
+                                dashboard.innerHTML = '<a href="/dashboard">Dashboard</a>';
+                                accSettings.innerHTML = '<a href="/account/settings">Account Settings</a>';
+                                accSettings.classList.add('nav-col');
+                            }
+                            else {
+                                dashboard.innerHTML = '';
+                                accSettings.innerHTML = `<div class="accordian-label dropbtn nav-col">Dashboard<img src="../assets/arrow-down.svg" alt=""></div> <div class="dropdown-content"><a href="#">Account Settings</a></div >`;
+                                dashboard.classList.add('nav-col');
+                            }
+                        </script>
+                        <% } %>
+    </nav>
+    <div class="container">
+        <div class="connection-points">
+            <span class="line"></span>
+            <div class="connector__line">
+                <%if(session_id===""){%>
+                    <a href="/booking/step-1" class="connector__marker connector__marker--enabled">Delivery Priority</a>
+                    <a href="/booking/step-2" class="connector__marker connector__marker--enabled">Vehicle/Parcel
+                        Type</a>
+                    <a href="#" class="connector__marker">Pickup Details</a>
+                    <a href="#" class="connector__marker">Delivery Details</a>
+                    <a href="#" class="connector__marker">Confirm & Pay</a>
+                    <%}else{%>
+                        <a href="/quote/step-1/<%=session_id%>"
+                            class="connector__marker connector__marker--enabled">Delivery
+                            Priority</a>
+                        <a href="/quote/step-2/<%=session_id%>"
+                            class="connector__marker connector__marker--enabled">Vehicle/Parcel
+                            Type</a>
+                        <a href="#" class="connector__marker">Pickup Details</a>
+                        <a href="#" class="connector__marker">Delivery Details</a>
+                        <a href="#" class="connector__marker">Confirm & Pay</a>
+                        <%}%>
+            </div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-bar__items">
+                <a href="/booking/step-1" class="">
+                    <div class="progress-bar__item--enabled">1</div>
+                    <p>Delivery Priority</p>
+                </a>
+            </div>
+            <div class="progress-bar__items progress-bar__item--enabled">
+                <a href="/booking/step-2" class="">
+                    <div>2</div>
+                    <p>Vehicle/Parcel Type</p>
+                </a>
+            </div>
+            <div class="progress-bar__items">
+                <a class="">
+                    <div>3</div>
+                    <p>Pickup Details</p>
+                </a>
+            </div>
+            <div class="progress-bar__items">
+                <a class="">
+                    <div>4</div>
+                    <p>Delivery Details</p>
+                </a>
+            </div>
+            <div class="progress-bar__items">
+                <a class="">
+                    <div>5</div>
+                    <p>Confirm & Pay</p>
+                </a>
+            </div>
+        </div>
+        <h1 class="delivery_priority">Select Vehicle Type</h1>
+        <div class="main-selector" id="main-selector">
+            <div class="item item1">
+                <label for="main1" class="main__label" id="label1">
+                    <input type="radio" class="main__radio" name="main__active" id="main1" checked="checked" />
+                    <span class="custom__radio"></span>
+                    Under 1 Tonne
+                </label>
+            </div>
+            <div class="item item2">
+                <label for="main2" class="main__label" id="label2">
+                    <input type="radio" class="main__radio" name="main__active" id="main2" />
+                    <span class="custom__radio"></span>
+                    Traytop
+                </label>
+            </div>
+            <div class="item item3">
+                <label for="main3" class="main__label" id="label3">
+                    <input type="radio" class="main__radio" name="main__active" id="main3" />
+                    <span class="custom__radio"></span>
+                    Enclosed
+                </label>
+            </div>
+        </div>
+        <form id="form">
+            <div class="delivery__images set-active" id="under_1_tonne">
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="SB" id="btn1" />
+                <label for="btn1" class="label__img"><img src="/assets/bike.png" class="flatrate__img" /></label>
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="SC" id="btn2" />
+                <label for="btn2" class="label__img"><img src="/assets/Car 1.png" class="flatrate__img" /></label>
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="SW" id="btn3" />
+                <label for="btn3" class="label__img"><img src="/assets/Wagon 1.png" class="flatrate__img" /></label>
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="SSV" id="btn4" />
+                <label for="btn4" class="label__img"><img src="/assets/Small Van.png" class="flatrate__img" /></label>
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="SST" id="btn5" />
+                <label for="btn5" class="label__img"><img src="/assets/Small tray.png" class="flatrate__img" /></label>
+            </div>
+
+            <div class="delivery__images" id="traytop">
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="SST" id="btn6" />
+                <label for="btn6" class="label__img"><img src="/assets/Small tray.png" class="flatrate__img" /></label>
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="S1T" id="btn7" />
+                <label for="btn7" class="label__img"><img src="/assets/1 Tonne A.png" class="flatrate__img" /></label>
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="S2T" id="btn8" />
+                <label for="btn8" class="label__img"><img src="/assets/2 Tonne B.png" class="flatrate__img" /></label>
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="S4T" id="btn9" />
+                <label for="btn9" class="label__img"><img src="/assets/4 Tonne C.png" class="flatrate__img" /></label>
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="S6T" id="btn10" />
+                <label for="btn10" class="label__img"><img src="/assets/6 Tonne D.png" class="flatrate__img" /></label>
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="S8T" id="btn11" />
+                <label for="btn11" class="label__img"><img src="/assets/8 Tonne E.png" class="flatrate__img" /></label>
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="S12" id="btn12" />
+                <label for="btn12" class="label__img"><img src="/assets/12 Tonne F.png" class="flatrate__img" /></label>
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="S12" id="btn13" />
+                <label for="btn13" class="label__img"><img src="/assets/14 Tonne G.png" class="flatrate__img" /></label>
+            </div>
+
+            <div class="delivery__images" id="enclosed">
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="SSV" id="btn14" />
+                <label for="btn14" class="label__img"><img src="/assets/Small Van.png" class="flatrate__img" /></label>
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="S1V" id="btn15" />
+                <label for="btn15" class="label__img"><img src="/assets/1 Tonne Van.png"
+                        class="flatrate__img" /></label>
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="S2V" id="btn16" />
+                <label for="btn16" class="label__img"><img src="/assets/2 Tonne Van.png"
+                        class="flatrate__img" /></label>
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="S4T" id="btn17" />
+                <label for="btn17" class="label__img"><img src="/assets/4 Tonne C.png" class="flatrate__img" /></label>
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="S6T" id="btn18" />
+                <label for="btn18" class="label__img"><img src="/assets/6 Tonne D.png" class="flatrate__img" /></label>
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="S8T" id="btn19" />
+                <label for="btn19" class="label__img"><img src="/assets/8 Tonne E.png" class="flatrate__img" /></label>
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="S12" id="btn20" />
+                <label for="btn20" class="label__img"><img src="/assets/12 Tonne F.png" class="flatrate__img" /></label>
+                <input type="radio" class="delivery__radio" name="delivery__active" data-delivery="S14" id="btn21" />
+                <label for="btn21" class="label__img"><img src="/assets/14 Tonne G.png" class="flatrate__img" /></label>
+            </div>
+
+            <div class="form-group">
+                <label for="num1">No. of Items</label>
+                <input type="number" class="form-control" id="num1" placeholder="Enter No. of Items (e.g. 1)"
+                    onblur="removeClasses(this)" min="1" onkeyup="checkNumberOfItems(this)" />
+                <small class="error-msg" id="items-error">Items cannot be more than <span id="itemsSpan"></span></small>
+            </div>
+            <div class="form-group">
+                <label for="num2">Total Weight (in kg)</label>
+                <input type="number" class="form-control" id="num2" placeholder="Enter Weight in kg" onkeyup="weight()"
+                    onblur="removeClasses(this)" min="1" />
+                <small class="error-msg" id="weight-error">Weight cannot be more than <span
+                        id="weightSpan"></span></small>
+            </div>
+            <!-- HandLoad/ Forklift Selector -->
+            <div class="main-selector handload" id="hf-selector">
+                <h4 class="main__label" id="hf-label">Handload</h4>
+
+                <label for="" class="main__label" id="yes">
+                    <input type="radio" class="main__radio" id="yesInput" name="main__active" checked="true"
+                        style="z-index: 9999;" />
+                    <span class="custom__radio"></span>
+                    Yes
+                </label>
+
+                <label for="" class="main__label" id="no">
+                    <input type="radio" class="main__radio" id="noInput" />
+                    <span class="custom__radio"></span>
+                    No</label>
+            </div>
+            <!-- ------------------ -->
+        </form>
+        <div class="submit-bar">
+            <button class="btn-primary" id="submitBtn" onclick="submitStep2()">
+                Next <img src="/assets/Right Arrow.png" alt="arrow" />
+            </button>
+        </div>
+    </div>
+    <script src="/js/step-2-standard.js"></script>
+    <script>
+        const yes = document.getElementById("yes");
+        const no = document.getElementById("no");
+        const yesInput = document.getElementById("yesInput");
+        const noInput = document.getElementById("noInput");
+        let helperObj = {};
+        yes.addEventListener('click', () => {
+            if (!yesInput.getAttribute("checked")) {
+                yesInput.setAttribute("checked", "true")
+                noInput.removeAttribute("checked");
+                if (localStorage.getItem("helper") !== null) {
+                    localStorage.removeItem("helper")
+                }
+                helperObj[document.getElementById("hf-label").textContent] = "yes";
+                localStorage.setItem("helper", JSON.stringify(helperObj));
+                helperObj = {};
+            }
+        })
+
+        no.addEventListener('click', () => {
+            if (!noInput.getAttribute("checked")) {
+                noInput.setAttribute("checked", "true")
+                yesInput.removeAttribute("checked");
+                if (localStorage.getItem("helper") !== null) {
+                    localStorage.removeItem("helper")
+                }
+                helperObj[document.getElementById("hf-label").textContent] = "no";
+                localStorage.setItem("helper", JSON.stringify(helperObj));
+                helperObj = {};
+            }
+        })
+    </script>
+    <%- include('./partials/_footer') %>

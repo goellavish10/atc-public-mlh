@@ -1,0 +1,95 @@
+<%- include('./partials/_header', {TITLE: title}) %>
+    <nav>
+        <div class="burger" id='burger'>
+            <img class="burger__vector" src="/assets/burger.png" alt="burger Vector" />
+        </div>
+        <ul id="navLinks">
+            <div class="burger burger__close" id='burger-alt'>
+                <img class="burger__vector" src="/assets/close.svg" alt="burger Vector" />
+            </div>
+            <li><a href="/booking">Book a Job</a></li>
+            <li><a href="/booking/history">Booking History</a></li>
+            <li id="empty"></li>
+            <li class="dropdown" id="dropdown">
+                <div class="accordian-label dropbtn nav-col">Dashboard<img src="/assets/arrow-down.svg" alt=""></div>
+                <div class="dropdown-content"><a href="/account/settings">Account Settings</a></div>
+            </li>
+            <li class="link--red"><a href="/logout">Logout</a></li>
+            <img src="/assets/logo.png" class="logo" alt="logo" />
+        </ul>
+        <img src="/assets/logo.png" class="logo" alt="logo" />
+        <script>
+            // Nav Opener
+            const burger = document.getElementById('burger');
+            const burgerClose = document.getElementById('burger-alt')
+            const navLinks = document.getElementById('navLinks')
+            burger.onclick = () => {
+                navLinks.style.display = 'flex';
+            }
+            burgerClose.onclick = () => {
+                navLinks.style.display = 'none';
+            }
+            const dashboard = document.getElementById('empty');
+            const accSettings = document.getElementById('dropdown');
+
+            const navDisplay = window.matchMedia("(max-width: 768px)");
+            if (navDisplay.matches) {
+                dashboard.innerHTML = 'Dashboard';
+                accSettings.innerHTML = 'Account Settings';
+                accSettings.classList.add('nav-col');
+            }
+            else {
+                dashboard.innerHTML = '';
+                accSettings.innerHTML = `<div class="accordian-label dropbtn nav-col">Dashboard<img src="../assets/arrow-down.svg" alt=""></div> <div class="dropdown-content"><a href="#">Account Settings</a></div >`;
+                dashboard.classList.add('nav-col');
+            }
+        </script>
+    </nav>
+    <div class="container">
+        <h1 class="delivery_priority">Delete Account</h1>
+        <div class="acc-settings__content">
+            <div class="acc-settings__container">
+                <div class="acc-settings__list">
+                    <ul>
+                        <li>
+                            <a href="/account/settings">Account Settings</a>
+                            <img class="vector-arrow" src="/assets/VectorBlack.png" alt="" />
+                        </li>
+                        <li>
+                            <a href="/account/saved-addresses">Manage Saved Address</a>
+                            <img class="vector-arrow" src="/assets/VectorBlack.png" alt="" />
+                        </li>
+                        <li>
+                            <a href="/account/saved-cards">Manage Credit Cards</a>
+                            <img class="vector-arrow" src="/assets/VectorBlack.png" alt="" />
+                        </li>
+                        <li class="link--red link--active-red active-list2">
+                            <a href="/account/delete-account">Delete My Account</a>
+                            <img class="vector-arrow" src="/assets/VectorWhite.png" alt="" />
+                        </li>
+                    </ul>
+                </div>
+                <form>
+                    <div class="form-group__account">
+                        <h4 for="name">Update Name</h4>
+                        <p>Important: Please note by deleting your account you will loose your entire booking history
+                            including proof of all your deliveries. This process is permanent and irreversible.</p>
+                        <label for="password">Account Password</label>
+                        <input type="password" class="form-control" id="password" required />
+                    </div>
+                    <!-- <div class="account-checkbox">
+                        <div class="check1" id="check"></div>
+                        <p>By clicking on Delete My Account, you agree to all information written here and admit that you will not be able to access your account in any way.</p>
+                    </div> -->
+                </form>
+            </div>
+            <div class="account-btn save-btn">
+                <button class="btn-primary  link--active-red">
+                    <img src="../assets/Vector-del.png" class="checkmark" alt="" />
+                    Delete My Acount
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <%- include('./partials/_footer') %>

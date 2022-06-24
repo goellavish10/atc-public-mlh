@@ -1,0 +1,84 @@
+<%- include('./partials/_header', { TITLE: title }) %>
+    <div class="container">
+        <% if(session!=="" ) {%>
+            <form class="" action="/sign-up?q=<%=session%>" method="post">
+                <% }else{ %>
+                    <form class="" action="/sign-up" method="post">
+                        <% } %>
+                            <div class="form-header">
+                                <img src="/assets/logo.png" class="logo" alt="logo">
+                                <h4>Start Booking with ATC Couriers</h3>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Full Name</label>
+                                <input onblur="checkForm()" type="name" name="full_name" class="form-control" id="name"
+                                    onkeyup="checkName(this)" placeholder="Enter Name (max 20 characters)" required />
+                                <small class="form-group error-msg" id="name-error">Name can't be longer than 20
+                                    characters.
+                                    If
+                                    possible write first
+                                    name</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email address</label>
+                                <input onblur="checkForm()" type="email" class="form-control" id="email"
+                                    aria-describedby="emailHelp" name="email" placeholder="Enter Email Address"
+                                    onkeyup="checkEmail(this)" required />
+                                <small class="form-group error-msg" id="email-error">Email address can't be
+                                    empty</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone_number">Phone Number</label>
+                                <div class="heading">
+                                    <h4>+61</h4>
+                                    <div class="form-group">
+                                        <input type="tel" class="form-control" name="phone" id="phone_number"
+                                            placeholder="Enter 10 digit Phone Number (optional)" />
+                                        <small class="form-group error-msg" id="phone-error">Phone number is
+                                            invalid</small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input onblur="checkForm()" type="password" class="form-control" name="password"
+                                        id="password" placeholder="Enter Password (min 6 characters)"
+                                        onkeyup="checkPassword(this)" required />
+                                    <small class="form-group error-msg" id="password-error">Password should not be less
+                                        than
+                                        6
+                                        characters.</small>
+                                </div>
+                            </div>
+                            <div class="agreement-signup">
+                                <!-- <div class="check1" id="check" onclick="checkTerms()"></div> -->
+                                <div class="checkbox grid-span-full">
+                                    <div class="check1" id="check" onclick="checkTerms()"></div>
+                                </div>
+                                <div class="cond-agg">
+                                    <small id="emailHelp" class="form-text text-muted" style="line-height: 1.6;">By
+                                        clicking the "Create Account"
+                                        button,
+                                        you
+                                        are creating
+                                        a ATC account, and you agree to ATC Courier's <a
+                                            href="https://atc-couriers.webflow.io/terms-and-conditions"
+                                            class="link">Terms
+                                            of
+                                            Use</a>
+                                        and
+                                        <a href="https://atc-couriers.webflow.io/privacy-policy" class="link">Privacy
+                                            Policy</a></small>
+                                </div>
+                            </div>
+                            <button onclick="submitForm()" class="btn btn-primary" id="create_account"
+                                style="cursor: pointer;">Create Casual
+                                Account</button>
+                            <small id="emailHelp" class="form-text text-muted login-form-link">Already have an
+                                account?
+                                <a href="/login" class="link">Login</a></small>
+                    </form>
+    </div>
+    <script src="/js/signup.js"></script>
+    <%- include('./partials/_footer', {js: 'signup' }) %>

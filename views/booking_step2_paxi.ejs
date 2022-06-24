@@ -1,0 +1,138 @@
+<%- include('./partials/_header_booking', {TITLE: title}) %>
+
+    <nav>
+        <% if(session_id==="" ){ %>
+            <div class="burger" id='burger'>
+                <img class="burger__vector" src="/assets/burger.png" alt="burger Vector" />
+            </div>
+            <ul id="navLinks">
+                <div class="burger burger__close" id='burger-alt'>
+                    <img class="burger__vector" src="/assets/close.svg" alt="burger Vector" />
+                </div>
+                <li class="nav-col"><a href="/booking">Book a Job</a></li>
+                <li><a href="/booking/history">Booking History</a></li>
+                <li id="empty"></li>
+                <li class="dropdown" id="dropdown">
+                    <div class="accordian-label dropbtn"><a href="/dashboard">Dashboard</a><img
+                            src="/assets/arrow-down.svg" alt=""></div>
+                    <div class="dropdown-content"><a href="/account/settings">Account Settings</a></div>
+                </li>
+
+                <li class="link--red"><a href="/logout">Logout</a></li>
+                <img src="/assets/logo.png" class="logo" alt="logo" />
+            </ul>
+            <img src="/assets/logo.png" class="logo" alt="logo" id="img-logo" />
+            <% }else { %>
+                <img src="/assets/logo.png" class="logo" alt="logo" id="img-logo" data-session="<%=session_id%>"
+                    data-booking="quote" />
+                <%}%>
+                    <% if(session_id==="" ) {%>
+                        <script>
+                            // Nav Opener
+                            const burger = document.getElementById('burger');
+                            const burgerClose = document.getElementById('burger-alt')
+                            const navLinks = document.getElementById('navLinks')
+                            burger.onclick = () => {
+                                navLinks.style.display = 'flex';
+                            }
+                            burgerClose.onclick = () => {
+                                navLinks.style.display = 'none';
+                            }
+                            const dashboard = document.getElementById('empty');
+                            const accSettings = document.getElementById('dropdown');
+
+                            const navDisplay = window.matchMedia("(max-width: 768px)");
+                            if (navDisplay.matches) {
+                                console.log("mobile layout")
+                                dashboard.innerHTML = '<a href="/dashboard">Dashboard</a>';
+                                accSettings.innerHTML = '<a href="/account/settings">Account Settings</a>';
+                                accSettings.classList.add('nav-col');
+                            }
+                            else {
+                                dashboard.innerHTML = '';
+                                accSettings.innerHTML = `<div class="accordian-label dropbtn nav-col">Dashboard<img src="../assets/arrow-down.svg" alt=""></div> <div class="dropdown-content"><a href="#">Account Settings</a></div >`;
+                                dashboard.classList.add('nav-col');
+                            }
+                        </script>
+                        <% } %>
+    </nav>
+    <div class="container" style="padding-top: 5em ; min-height: 50vh;">
+        <div class="connection-points">
+            <span class="line"></span>
+            <div class="connector__line">
+                <%if(session_id===""){%>
+                    <a href="/booking/step-1" class="connector__marker connector__marker--enabled">Delivery Priority</a>
+                    <a href="/booking/step-2" class="connector__marker connector__marker--enabled">Vehicle/Parcel
+                        Type</a>
+                    <a href="#" class="connector__marker">Pickup Details</a>
+                    <a href="#" class="connector__marker">Delivery Details</a>
+                    <a href="#" class="connector__marker">Confirm & Pay</a>
+                    <%}else{%>
+                        <a href="/quote/step-1/<%=session_id%>"
+                            class="connector__marker connector__marker--enabled">Delivery
+                            Priority</a>
+                        <a href="/quote/step-2/<%=session_id%>"
+                            class="connector__marker connector__marker--enabled">Vehicle/Parcel
+                            Type</a>
+                        <a href="#" class="connector__marker">Pickup Details</a>
+                        <a href="#" class="connector__marker">Delivery Details</a>
+                        <a href="#" class="connector__marker">Confirm & Pay</a>
+                        <%}%>
+            </div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-bar__items">
+                <a href="/booking/step-1" class="">
+                    <div class="progress-bar__item--enabled">1</div>
+                    <p>Delivery Priority</p>
+                </a>
+            </div>
+            <div class="progress-bar__items progress-bar__item--enabled">
+                <a href="/booking/step-2" class="">
+                    <div>2</div>
+                    <p>Vehicle/Parcel Type</p>
+                </a>
+            </div>
+            <div class="progress-bar__items">
+                <a class="">
+                    <div>3</div>
+                    <p>Pickup Details</p>
+                </a>
+            </div>
+            <div class="progress-bar__items">
+                <a class="">
+                    <div>4</div>
+                    <p>Delivery Details</p>
+                </a>
+            </div>
+            <div class="progress-bar__items">
+                <a class="">
+                    <div>5</div>
+                    <p>Confirm & Pay</p>
+                </a>
+            </div>
+        </div>
+        <h1 class="delivery_priority">Item Information</h1>
+        <form id="form">
+            <div class="form-group" id="nItemsDiv">
+                <label for="time">No. of items</label>
+                <input type="number" class="form-control" id="no_of_items" placeholder="Enter No. of items" min="1"
+                    max="5" onblur="removeClasses(this)" />
+                <small id="items-error">Note: Max no. of items is 5</small>
+            </div>
+            <div class="form-group" id="weightDiv">
+                <label for="weight">Total Weight (in kg)</label>
+                <input type="number" class="form-control" id="weight" placeholder="Enter Total Weight in kg" max="25"
+                    onblur="removeClasses(this)" />
+                <small id="weight-error">Note: Max weight per item is 25kg </small>
+            </div>
+        </form>
+        <div class="submit-bar" style="margin-top: 15px;">
+            <button class="btn-primary" onclick="submitStep2()" style="cursor: pointer;" id="submitBtn">
+                Next <img src="/assets/Right Arrow.png" alt="arrow" />
+            </button>
+        </div>
+    </div>
+    <script src="/js/step-2-paxi.js"></script>
+
+    <%- include('./partials/_footer') %>

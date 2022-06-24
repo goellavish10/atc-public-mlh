@@ -1,0 +1,300 @@
+<%- include('./partials/_header_booking', {TITLE: title}) %>
+
+    <nav>
+        <% if(session_id==="" ){ %>
+            <div class="burger" id='burger'>
+                <img class="burger__vector" src="/assets/burger.png" alt="burger Vector" />
+            </div>
+            <ul id="navLinks">
+                <div class="burger burger__close" id='burger-alt'>
+                    <img class="burger__vector" src="/assets/close.svg" alt="burger Vector" />
+                </div>
+                <li class="nav-col"><a href="/booking">Book a Job</a></li>
+                <li><a href="/booking/history">Booking History</a></li>
+                <li id="empty"></li>
+                <li class="dropdown" id="dropdown">
+                    <div class="accordian-label dropbtn"><a href="/dashboard">Dashboard</a><img
+                            src="/assets/arrow-down.svg" alt=""></div>
+                    <div class="dropdown-content"><a href="/account/settings">Account Settings</a></div>
+                </li>
+
+                <li class="link--red"><a href="/logout">Logout</a></li>
+                <img src="/assets/logo.png" class="logo" alt="logo" />
+            </ul>
+            <img src="/assets/logo.png" class="logo" alt="logo" id="img-logo" />
+            <% }else { %>
+                <img src="/assets/logo.png" class="logo" alt="logo" id="img-logo" data-session="<%=session_id%>"
+                    data-booking="quote" />
+                <%}%>
+                    <% if(session_id==="" ) {%>
+                        <script>
+                            // Nav Opener
+                            const burger = document.getElementById('burger');
+                            const burgerClose = document.getElementById('burger-alt')
+                            const navLinks = document.getElementById('navLinks')
+                            burger.onclick = () => {
+                                navLinks.style.display = 'flex';
+                            }
+                            burgerClose.onclick = () => {
+                                navLinks.style.display = 'none';
+                            }
+                            const dashboard = document.getElementById('empty');
+                            const accSettings = document.getElementById('dropdown');
+
+                            window.addEventListener("resize", function () {
+                                const width = document.documentElement.clientWidth;
+                                if (width > 768) {
+                                    dashboard.innerHTML = '';
+                                    accSettings.innerHTML = `<div class="accordian-label dropbtn"><a href="/dashboard">Dashboard</a><img
+                        src="/assets/arrow-down.svg" alt=""></div>
+                <div class="dropdown-content"><a href="/account/settings">Account Settings</a></div>`;
+                                    // dashboard.classList.add('nav-col');
+                                }
+                            }, { once: true })
+
+                            if (window.innerWidth < 768) {
+                                accSettings.innerHTML = "";
+                                dashboard.innerHTML = '<a href="/dashboard">Dashboard</a>';
+                                dashboard.style.display = "block";
+                                accSettings.innerHTML = '<a href="/account/settings">Account Settings</a>';
+                            }
+                        </script>
+                        <% } %>
+    </nav>
+    <div class="container">
+        <div class="connection-points">
+            <span class="line"></span>
+            <div class="connector__line">
+                <%if(session_id===""){%>
+                    <a href="/booking/step-1" class="connector__marker connector__marker--enabled">Delivery Priority</a>
+                    <a href="/booking/step-2" class="connector__marker connector__marker--enabled">Vehicle/Parcel
+                        Type</a>
+                    <a href="/booking/step-3" class="connector__marker connector__marker--enabled">Pickup Details</a>
+                    <a href="/booking/step-4" class="connector__marker connector__marker--enabled">Delivery Details</a>
+                    <a href="#" class="connector__marker">Confirm & Pay</a>
+                    <%}else{%>
+                        <a href="/quote/step-1/<%=session_id%>"
+                            class="connector__marker connector__marker--enabled">Delivery Priority</a>
+                        <a href="/quote/step-2/<%=session_id%>"
+                            class="connector__marker connector__marker--enabled">Vehicle/Parcel Type</a>
+                        <a href="/quote/step-3/<%=session_id%>"
+                            class="connector__marker connector__marker--enabled">Pickup Details</a>
+                        <a href="/quote/step-4/<%=session_id%>"
+                            class="connector__marker connector__marker--enabled">Delivery Details</a>
+                        <a href="#" class="connector__marker">Confirm & Pay</a>
+                        <%}%>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-bar__items">
+                <a href="/booking/step-1" class="">
+                    <div class="progress-bar__item--enabled">1</div>
+                    <p>Delivery Priority</p>
+                </a>
+            </div>
+            <div class="progress-bar__items">
+                <a href="/booking/step-2" class="">
+                    <div class="progress-bar__item--enabled">2</div>
+                    <p>Vehicle/Parcel Type</p>
+                </a>
+            </div>
+            <div class="progress-bar__items">
+                <a href="/booking/step-3" class="">
+                    <div class="progress-bar__item--enabled">3</div>
+                    <p>Pickup Details</p>
+                </a>
+            </div>
+            <div class="progress-bar__items progress-bar__item--enabled">
+                <a href="/booking/step-4" class="">
+                    <div>4</div>
+                    <p>Delivery Details</p>
+                </a>
+            </div>
+            <div class="progress-bar__items">
+                <a class="">
+                    <div>5</div>
+                    <p>Confirm & Pay</p>
+                </a>
+            </div>
+        </div>
+
+        <h1 class="delivery_priority">Delivery Details</h1>
+        <form class="form-grid" id="step-4-form">
+            <div class="form-group">
+                <label for="name">Recepient Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Recepient Name (max 20 characters)"
+                    onkeyup="nameCheck()" onblur="removeClasses(this)" value="<%=name%>" required />
+                <small class="form-group error-msg" id="name-error">Name can't be longer than 20 characters. If possible
+                    write first
+                    name</small>
+            </div>
+            <div class="form-group">
+                <label for="text">Business Name</label>
+                <input type="text" class="form-control" id="business_name" placeholder="Business Name (optional)"
+                    value="<%=businessName%>" />
+                <small class="form-group error-msg"></small>
+            </div>
+            <div class="form-group">
+                <label for="number">Recepient Phone Number</label>
+                <div class="heading">
+                    <h4>+61</h4>
+                    <input type="number" class="form-control" id="phone_number"
+                        placeholder="Enter your 10 digit Phone Number" onkeyup="numCheck()" onblur="removeClasses(this)"
+                        value="<%=phone%>" required />
+                </div>
+                <div class="heading">
+                    <h4></h4>
+                    <small class="form-group error-msg" id="phone_number-error">Phone number is invalid</small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address">Delivery Street Address</label>
+                <input type="text" class="form-control" id="address" placeholder="Delivery Street Address"
+                    onkeyup="addressCheck()" onblur="removeClasses(this)" value="<%=deliveryAddress%>" required />
+                <small class="form-group error-msg" id="address-error">Delivery Street is required</small>
+            </div>
+            <div class="form-group">
+                <label for="unit">Unit / Suit / Level</label>
+                <input type="text" class="form-control" id="unit" placeholder="Unit / Suit/ Level (optional)"
+                    value="<%=unit%>" />
+                <small class="form-group error-msg"></small>
+            </div>
+            <div class="form-group" style="z-index: 999; position: relative;">
+                <label for="suburb">Delivery Suburb</label>
+                <input type="text" class="form-control" id="suburb" placeholder="Delivery Suburb" value="<%=suburb%>"
+                    onkeyup="addressCheck()" onblur="removeClasses(this)" required style="margin-bottom: 0;"
+                    autocomplete="off" />
+                <small class="form-group error-msg" id="suburb-error" style="margin-top: 8px;">Delivery Suburb is
+                    required</small>
+                <div class="ui-widget" id="autocomplete__widget">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="postcode">Postcode</label>
+                <input type="text" class="form-control" id="postcode" placeholder="Enter Postcode"
+                    onkeyup="addressCheck()" onblur="removeClasses(this)" value="<%=postcode%>" required />
+                <small class="form-group error-msg" id="postcode-error">Postcode is required</small>
+            </div>
+            <div class="form-group">
+                <label for="job">Job Reference</label>
+                <input type="text" class="form-control" id="job" placeholder="Enter Job Reference (optional)"
+                    value="<%=jobReference%>" />
+                <small class="form-group error-msg"></small>
+            </div>
+            <div class="form-group">
+                <label for="inst">Driver Instructions</label>
+                <textarea class="form-control" id="inst" placeholder="Max 250 characters. (optional)" rows="5"
+                    maxlength="250"><%=driverInstructions%></textarea>
+                <small class="form-group error-msg"></small>
+            </div>
+            <% if(session_id==="" ) {%>
+                <a class="btn grid-span-full" onclick="showModal()">View Saved Address</a>
+                <div class="checkbox grid-span-full">
+                    <div class="check1" id="check"></div>
+                    <h4>Save this Address</h4>
+                </div>
+                <%}%>
+        </form>
+        <%if(session_id==="" && savedAddresses !=="" ){%>
+            <div class="modal" id="modalContent" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal_heading">
+                        <h2>Saved Address</h2>
+                        <button class="close" onclick="closeModal()"><img src="/assets/close.svg" class="cross"
+                                alt="close" /></button>
+                    </div>
+                    <% if(savedAddresses==="" ) { %>
+                        <div class="item">
+                            <h4>No saved Addresses</h4>
+                        </div>
+                        <% } else { %>
+                            <% savedAddresses.map((address, index)=> { %>
+                                <% if(address.businessName) { %>
+                                    <div class="item item1 modal-items">
+                                        <label for="main_<%=index%>" class="main__label">
+                                            <input type="radio" class="main__radio address_custom_radio"
+                                                name="main__active" id="main_<%=index%>" />
+                                            <span class="custom__radio"></span>
+                                            <div class="modal_list">
+                                                <h3 class="modal-add" id="business_h_<%=index%>">
+                                                    <%=address.businessName%>
+                                                </h3>
+                                                <p class="add" id="address_p_<%=index%>">
+                                                    <%=address.address%>
+                                                </p>
+                                                <p class="add" id="postcode_p_<%=index%>">
+                                                    <%=address.postcode%>
+                                                </p>
+                                            </div>
+                                        </label>
+                                        <button class="delete" id="<%=address._id%>"
+                                            onclick="deleteAddress('<%=address._id%>')">Delete</button>
+                                    </div>
+                                    <% } else { %>
+                                        <div class="item item3 modal-items">
+                                            <label for="main_<%=index%>" class="main__label">
+                                                <input type="radio" class="main__radio address_custom_radio"
+                                                    name="main__active" id="main_<%=index%>" />
+                                                <span class="custom__radio"></span>
+                                                <div class="modal_list">
+                                                    <p class="add" id="address_p_<%=index%>">
+                                                        <%= address.address %>
+                                                    </p>
+                                                    <p class="add" id="postcode_p_<%=index%>">
+                                                        <%= address.postcode %>
+                                                    </p>
+                                                </div>
+                                            </label>
+                                            <button class="delete" id="<%=address._id%>"
+                                                onclick="deleteAddress('<%=address._id%>')">Delete</button>
+                                        </div>
+                                        <% } %>
+                                            <% }) %>
+                                                <% } %>
+
+
+                                                    <button class="btn-primary btn-add" onclick="selectAddress()">
+                                                        Use this Address <img src="/assets/Right Arrow.png"
+                                                            alt="arrow" />
+                                                    </button>
+                </div>
+            </div>
+            <div class="modal_bg" onclick="closeModal()">
+            </div>
+            <%}%>
+                <div class="submit-bar" style="margin-top: 15px;">
+                    <button class="btn-primary" onclick="submitStep4()" style="cursor: pointer" id="submitBtn">
+                        Next <img src="/assets/Right Arrow.png" alt="arrow" />
+                    </button>
+                </div>
+    </div>
+    <script>
+        // Places Search API
+        function activatePlacesSearchAPI() {
+            const input = document.getElementById("address");
+            const autocomplete = new google.maps.places.Autocomplete(input, {
+                componentRestrictions: { country: "au" },
+            });
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                var place = autocomplete.getPlace();
+                for (var i = 0; i < place.address_components.length; i++) {
+                    for (var j = 0; j < place.address_components[i].types.length; j++) {
+                        if (place.address_components[i].types[j] == "postal_code") {
+                            document.getElementById("postcode").value = place.address_components[i].long_name;
+                            localStorage.setItem("postcode", place.address_components[i].long_name);
+                        }
+                    }
+                }
+            })
+        }
+    </script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnkuiKUnwUUZduua44JjTiyi7T3wyrxmo&libraries=places&callback=activatePlacesSearchAPI"
+        async defer></script>
+    <% if(session_id==="" ) {%>
+        <script src="/js/modal.js"></script>
+        <% } %>
+            <script src="/js/step-4.js"></script>
+
+            <%- include('./partials/_footer') %>

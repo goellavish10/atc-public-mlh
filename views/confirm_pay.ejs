@@ -1,0 +1,246 @@
+<%- include('./partials/_header_booking', {TITLE: title}) %>
+    <div id="hover__layer"></div>
+    <nav>
+        <div class="burger" id='burger'>
+            <img class="burger__vector" src="/assets/burger.png" alt="burger Vector" />
+        </div>
+        <ul id="navLinks">
+            <div class="burger burger__close" id='burger-alt'>
+                <img class="burger__vector" src="/assets/close.svg" alt="burger Vector" />
+            </div>
+            <li class="nav-col"><a href="/booking">Book a Job</a></li>
+            <li><a href="/booking/history">Booking History</a></li>
+            <li id="empty"></li>
+            <li class="dropdown" id="dropdown">
+                <div class="accordian-label dropbtn"><a href="/dashboard">Dashboard</a><img src="/assets/arrow-down.svg"
+                        alt=""></div>
+                <div class="dropdown-content"><a href="/account/settings">Account Settings</a></div>
+            </li>
+
+            <li class="link--red"><a href="/logout">Logout</a></li>
+            <img src="/assets/logo.png" class="logo" alt="logo" />
+        </ul>
+        <img src="../assets/logo.png" class="logo" alt="logo" />
+        <script>
+            // Nav Opener
+            const burger = document.getElementById('burger');
+            const burgerClose = document.getElementById('burger-alt')
+            const navLinks = document.getElementById('navLinks')
+            burger.onclick = () => {
+                navLinks.style.display = 'flex';
+            }
+            burgerClose.onclick = () => {
+                navLinks.style.display = 'none';
+            }
+            const dashboard = document.getElementById('empty');
+            const accSettings = document.getElementById('dropdown');
+
+            window.addEventListener("resize", function () {
+                const width = document.documentElement.clientWidth;
+                if (width > 768) {
+                    dashboard.innerHTML = '';
+                    accSettings.innerHTML = `<div class="accordian-label dropbtn"><a href="/dashboard">Dashboard</a><img
+        src="/assets/arrow-down.svg" alt=""></div>
+<div class="dropdown-content"><a href="/account/settings">Account Settings</a></div>`;
+                    // dashboard.classList.add('nav-col');
+                }
+            }, { once: true })
+
+            if (window.innerWidth < 768) {
+                accSettings.innerHTML = "";
+                dashboard.innerHTML = '<a href="/dashboard">Dashboard</a>';
+                dashboard.style.display = "block";
+                accSettings.innerHTML = '<a href="/account/settings">Account Settings</a>';
+            }
+        </script>
+    </nav>
+    <div class="container">
+        <div class="connection-points">
+            <span class="line"></span>
+            <div class="connector__line">
+                <a href="/booking/step-1" class="connector__marker connector__marker--enabled">Delivery Priority</a>
+                <a href="/booking/step-2" class="connector__marker connector__marker--enabled">Vehicle/Parcel Type</a>
+                <a href="/booking/step-3" class="connector__marker connector__marker--enabled">Pickup Details</a>
+                <a href="/booking/step-4" class="connector__marker connector__marker--enabled">Delivery Details</a>
+                <a href="/booking/checkout" class="connector__marker connector__marker--checkout">Confirm & Pay</a>
+            </div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-bar__items">
+                <a href="#" class="">
+                    <div class="progress-bar__item--enabled">1</div>
+                    <p>Delivery Priority</p>
+                </a>
+            </div>
+            <div class="progress-bar__items">
+                <a href="#" class="">
+                    <div class="progress-bar__item--enabled">2</div>
+                    <p>Vehicle/Parcel Type</p>
+                </a>
+            </div>
+            <div class="progress-bar__items">
+                <a href="#" class="">
+                    <div class="progress-bar__item--enabled">3</div>
+                    <p>Pickup Details</p>
+                </a>
+            </div>
+            <div class="progress-bar__items">
+                <a href="#" class="">
+                    <div class="progress-bar__item--enabled">4</div>
+                    <p>Delivery Details</p>
+                </a>
+            </div>
+            <div class="progress-bar__items progress-bar__checkout">
+                <a href="#" class="">
+                    <div>5</div>
+                    <p>Confirm & Pay</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="checkout__content">
+            <div class="details">
+                <div class="details__imp">
+                    <p>Estimated Delivery Time: <span>
+                            <%=estimatedDeliveryTime%>
+                        </span></p>
+                    <p>Service Level: <span>
+                            <%=level.toUpperCase()%>
+                        </span></p>
+                    <% if(level!=="paxi" ) { %>
+                        <p>Service: <span>
+                                <%=service%>
+                            </span></p>
+                        <%}%>
+                            <p>Booked For: <span>
+                                    <%=time%>
+                                        <%=date%>
+                                </span></p>
+                            <p>No. of Items: <span>
+                                    <%=items%>
+                                </span></p>
+                            <p style="margin-bottom: 15px;">Total Weight: <span>
+                                    <%=totalWeight%>kg
+                                </span></p>
+                </div>
+                <div class="details__pickup">
+                    <div class="accordian-item">
+                        <div class="drop-header accordian-label">Pickup Details <img src="../assets/arrow-down.svg"
+                                alt=""></div>
+                        <div class="accordian-content">
+                            <p>Sender Name: <span>
+                                    <%=senderDetail.name%>
+                                </span></p>
+                            <% if(senderDetail.businessName) { %>
+                                <p>Business Name: <span>
+                                        <%=senderDetail.businessName%>
+                                    </span></p>
+                                <%}%>
+                                    <p>Sender Phone No: <span>
+                                            <%=senderDetail.phone%>
+                                        </span></p>
+                                    <p>
+                                        Pickup Street Address: <span>
+                                            <%=senderDetail.address%>
+                                        </span>
+                                    </p>
+                                    <p>
+                                        Postcode: <span>
+                                            <%=senderDetail.postcode%>
+                                        </span>
+                                    </p>
+                                    <% if(senderDetail.unit) { %>
+                                        <p>Unit/Suit/Level: <span>
+                                                <%=senderDetail.unit%>
+                                            </span></p>
+                                        <%}%>
+                                            <p>Pickup Suburb: <span>
+                                                    <%=senderDetail.suburb%>
+                                                </span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="details__delivery">
+                    <div class="accordian-item">
+                        <div class="drop-header accordian-label">Delivery Details <img src="../assets/arrow-down.svg"
+                                alt=""></div>
+                        <div class="accordian-content">
+                            <p>Recepient Name: <span>
+                                    <%=deliveryDetail.name%>
+                                </span></p>
+                            <% if(deliveryDetail.businessName !=="" ) { %>
+                                <p>Business Name: <span>
+                                        <%=deliveryDetail.businessName%>
+                                    </span></p>
+                                <%}else {%>
+                                    <p>Business Name: <span>
+                                            -
+                                        </span></p>
+                                    <%}%>
+                                        <p>Recepient Phone No: <span>
+                                                <%=deliveryDetail.phone%>
+                                            </span></p>
+                                        <p>
+                                            Delivery Street Address: <span>
+                                                <%=deliveryDetail.address%>
+                                            </span>
+                                        </p>
+                                        <p>
+                                            Postcode: <span>
+                                                <%=deliveryDetail.postcode%>
+                                            </span>
+                                        </p>
+                                        <% if(deliveryDetail.unit) { %>
+                                            <p>Unit/Suit/Level: <span>
+                                                    <%=deliveryDetail.unit%>
+                                                </span></p>
+                                            <%}%>
+                                                <p>Delivery Suburb: <span>
+                                                        <%=deliveryDetail.suburb%>
+                                                    </span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="driver__instruction">
+                    <p class="drop-header">Driver Instructions</p>
+                    <p class="driver_content">
+                        <% if(driverInstructions !=="" ) { %>
+                            <%=driverInstructions%>
+                                <%}else{%>
+                                    -
+                                    <%}%>
+                    </p>
+                </div>
+                <div class="details__dp">
+                    <div class="drop-header" style="margin-top: 15px;">
+                        <p>Total Distance: <span id="distance">Calculating...</span></p>
+                    </div>
+                    <div class="final-price drop-header">
+                        <p>Total Price: <span>$<%=price %></span></p>
+                    </div>
+                    <small class="gst">(GST Inclusive)</small>
+                </div>
+            </div>
+            <div class="map" id="map" data-role="page"></div>
+            <div class="agreement" style="margin-top: 20px;">
+                <div class="checkbox grid-span-full">
+                    <div class="check1" id="check"></div>
+                    <p>I confirm the details provided are correct & that the item(s) are securely packaged & clearly
+                        addressed. All items
+                        presented for collection & delivery confirm with ATC Courier's Terms & Conditions.</p>
+                </div>
+                <div class="final-button" id="payBtn">
+                    <button class="btn btn-secondary inactive" id="confirmPay" data-booking="<%=bookingId%>">Confirm
+                        and Pay $
+                        <%=price%>
+                    </button>
+                    <small>Redirects to stripe Payments</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnkuiKUnwUUZduua44JjTiyi7T3wyrxmo&callback=initMap">
+        </script>
+    <script src="/js/checkout.js"></script>
+    <%- include('./partials/_footer') %>

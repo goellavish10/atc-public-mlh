@@ -1,0 +1,118 @@
+<%- include('./partials/_header_booking', {TITLE: title}) %>
+    <style>
+        .svg_icon {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        @media screen and (max-width: 560px) {
+            .svg {
+                height: 60vw;
+                width: 60vw;
+            }
+
+            .back-btn {
+                width: 40%;
+            }
+        }
+
+        @media screen and (max-width: 360px) {
+            .back-btn {
+                width: 60%;
+            }
+        }
+
+        .content {
+            width: 100%;
+            text-align: center;
+        }
+
+        .error_content {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+            font-size: 3rem;
+        }
+
+        .backBtn {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .back-btn {
+            width: 30%;
+        }
+    </style>
+    <nav>
+        <div class="burger" id='burger'>
+            <img class="burger__vector" src="/assets/burger.png" alt="burger Vector" />
+        </div>
+        <ul id="navLinks">
+            <div class="burger burger__close" id='burger-alt'>
+                <img class="burger__vector" src="/assets/close.svg" alt="burger Vector" />
+            </div>
+            <li><a href="/booking">Bookings</a></li>
+            <li id="empty"></li>
+            <li class="dropdown" id="dropdown">
+                <div class="accordian-label dropbtn nav-col"><a href="/dashboard">Dashboard</a><img
+                        src="/assets/arrow-down.svg" alt=""></div>
+                <div class="dropdown-content"><a href="/account/settings">Account Settings</a></div>
+            </li>
+            <li id="empty"></li>
+            <li><a href="/booking/history">Booking History</a></li>
+            <li><a href="/logout" style="color: #E01B1B;">Logout</a></li>
+            <img src="/assets/logo.png" class="logo" alt="logo" />
+        </ul>
+        <img src="/assets/logo.png" class="logo" alt="logo" />
+        <script>
+            // Nav Opener
+            const burger = document.getElementById('burger');
+            const burgerClose = document.getElementById('burger-alt')
+            const navLinks = document.getElementById('navLinks')
+            burger.onclick = () => {
+                navLinks.style.display = 'flex';
+            }
+            burgerClose.onclick = () => {
+                navLinks.style.display = 'none';
+            }
+            const dashboard = document.getElementById('empty');
+            const accSettings = document.getElementById('dropdown');
+
+            const navDisplay = window.matchMedia("(max-width: 768px)");
+            if (navDisplay.matches) {
+                console.log("mobile layout")
+                dashboard.innerHTML = '<a href="/dashboard">Dashboard</a>';
+                accSettings.innerHTML = '<a href="/account/settings">Account Settings</a>';
+                accSettings.classList.add('nav-col');
+            }
+            else {
+                dashboard.innerHTML = '';
+                accSettings.innerHTML = `<div class="accordian-label dropbtn nav-col">Dashboard<img src="../assets/arrow-down.svg" alt=""></div> <div class="dropdown-content"><a href="#">Account Settings</a></div >`;
+                dashboard.classList.add('nav-col');
+            }
+        </script>
+    </nav>
+    <div class="svg_icon">
+        <img src="/assets/error.svg" alt="My Happy SVG" class="svg" />
+    </div>
+    <div class="content">
+        <h2 class="error_content">
+            <%=content%>
+        </h2>
+    </div>
+
+    <div class="backBtn">
+        <button class="btn-primary back-btn" onclick="backTo('<%=url%>')">
+            Go Back
+        </button>
+    </div>
+    <script>
+        function backTo(url) {
+            window.location = url;
+        }
+    </script>
+    <%- include('./partials/_footer') %>
